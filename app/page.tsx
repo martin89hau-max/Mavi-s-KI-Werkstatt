@@ -12,9 +12,9 @@ export default function Home() {
       <Navbar />
       <main className="bg-background">
         {/* Hero */}
-        <section id="hero" className="py-16 px-8">
+        <section id="hero" className="py-10 md:py-16 px-4 md:px-8">
           <div className="max-w-5xl mx-auto flex flex-col gap-4">
-            <p className="text-sm tracking-widest text-foreground/50 uppercase font-medium">
+            <p className="text-xs md:text-sm tracking-widest text-foreground/50 uppercase font-medium">
               KI Agentur · Automatisierung · Innovation
             </p>
             <SplineSceneBasic />
@@ -28,7 +28,7 @@ export default function Home() {
         <Contact />
 
         {/* Footer */}
-        <footer className="border-t border-zinc-300/50 py-8 px-8 text-center text-sm text-zinc-500">
+        <footer className="border-t border-zinc-300/50 py-8 px-4 text-center text-sm text-zinc-500">
           © {new Date().getFullYear()} Mavi&apos;s KI Werkstatt — Alle Rechte vorbehalten
         </footer>
       </main>

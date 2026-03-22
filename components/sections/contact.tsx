@@ -11,15 +11,15 @@ export function Contact() {
   }
 
   return (
-    <section id="kontakt" className="py-24 px-8">
+    <section id="kontakt" className="py-16 md:py-24 px-4 md:px-8">
       <div className="max-w-5xl mx-auto">
         <h2 className="text-3xl font-bold text-zinc-900 mb-2">Kontakt</h2>
-        <p className="text-zinc-500 mb-12">Hast du ein Projekt? Schreib mir einfach.</p>
+        <p className="text-zinc-500 mb-8 md:mb-12">Hast du ein Projekt? Schreib mir einfach.</p>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
           {/* Form */}
           {sent ? (
-            <div className="flex flex-col items-center justify-center gap-4 bg-zinc-200/80 border border-zinc-300/60 rounded-2xl p-10 text-center">
+            <div className="flex flex-col items-center justify-center gap-4 bg-zinc-200/80 border border-zinc-300/60 rounded-2xl p-8 text-center">
               <Send className="w-10 h-10 text-zinc-600" />
               <p className="font-semibold text-zinc-900 text-lg">Nachricht gesendet!</p>
               <p className="text-zinc-600 text-sm">Ich melde mich so schnell wie möglich bei dir.</p>
