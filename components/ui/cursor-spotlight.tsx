@@ -15,21 +15,42 @@ export function CursorSpotlight() {
   const left = useTransform(mouseX, (x) => `${x - SIZE / 2}px`);
   const top = useTransform(mouseY, (y) => `${y - SIZE / 2}px`);
 
-  const handleMouseMove = useCallback(
-    (e: MouseEvent) => {
-      mouseX.set(e.clientX);
-      mouseY.set(e.clientY);
+  const updatePosition = useCallback(
+    (x: number, y: number) => {
+      mouseX.set(x);
+      mouseY.set(y);
       setIsVisible(true);
     },
     [mouseX, mouseY]
   );
 
+  const handleMouseMove = useCallback(
+    (e: MouseEvent) => updatePosition(e.clientX, e.clientY),
+    [updatePosition]
+  );
+
+  const handleTouch = useCallback(
+    (e: TouchEvent) => {
+      const touch = e.touches[0];
+      if (touch) updatePosition(touch.clientX, touch.clientY);
+    },
+    [updatePosition]
+  );
+
+  const handleTouchEnd = useCallback(() => setIsVisible(false), []);
+
   useEffect(() => {
     window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('touchstart', handleTouch, { passive: true });
+    window.addEventListener('touchmove', handleTouch, { passive: true });
+    window.addEventListener('touchend', handleTouchEnd);
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('touchstart', handleTouch);
+      window.removeEventListener('touchmove', handleTouch);
+      window.removeEventListener('touchend', handleTouchEnd);
     };
-  }, [handleMouseMove]);
+  }, [handleMouseMove, handleTouch, handleTouchEnd]);
 
   return (
     <div ref={containerRef} className="pointer-events-none fixed inset-0 z-50 overflow-hidden">
