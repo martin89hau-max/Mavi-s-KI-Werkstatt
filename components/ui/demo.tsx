@@ -25,7 +25,7 @@ export function SplineSceneBasic() {
         </div>
 
         {/* Roboter — unten auf Mobile (feste Höhe), rechts auf Desktop */}
-        <div className="flex-[1.4] relative h-[750px] md:h-auto">
+        <div className="flex-[1.4] relative h-[650px] md:h-auto">
           <SplineScene
             scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
             className="w-full h-full"

@@ -30,14 +30,30 @@ export function CursorSpotlight() {
 
   const handleMouseLeave = useCallback(() => setIsVisible(false), []);
 
+  const handleTouch = useCallback(
+    (e: TouchEvent) => {
+      const touch = e.touches[0];
+      if (touch) updatePosition(touch.clientX, touch.clientY);
+    },
+    [updatePosition]
+  );
+
+  const handleTouchEnd = useCallback(() => setIsVisible(false), []);
+
   useEffect(() => {
     window.addEventListener('mousemove', handleMouseMove);
     window.addEventListener('mouseleave', handleMouseLeave);
+    window.addEventListener('touchstart', handleTouch, { passive: true });
+    window.addEventListener('touchmove', handleTouch, { passive: true });
+    window.addEventListener('touchend', handleTouchEnd);
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('mouseleave', handleMouseLeave);
+      window.removeEventListener('touchstart', handleTouch);
+      window.removeEventListener('touchmove', handleTouch);
+      window.removeEventListener('touchend', handleTouchEnd);
     };
-  }, [handleMouseMove, handleMouseLeave]);
+  }, [handleMouseMove, handleMouseLeave, handleTouch, handleTouchEnd]);
 
   return (
     <div ref={containerRef} className="pointer-events-none fixed inset-0 z-[9999] overflow-hidden">
@@ -45,7 +61,6 @@ export function CursorSpotlight() {
         style={{ left, top, opacity: isVisible ? 1 : 0 }}
         className="absolute"
       >
-        {/* Black hand cursor SVG */}
         <svg
           width="32"
           height="32"
