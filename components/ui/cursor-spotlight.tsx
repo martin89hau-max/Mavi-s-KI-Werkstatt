@@ -2,8 +2,7 @@
 import { useRef, useState, useCallback, useEffect } from 'react';
 import { motion, useSpring, useTransform } from 'framer-motion';
 
-const SIZE = 200;
-const SPRING_OPTIONS = { bounce: 0, duration: 300 };
+const SPRING_OPTIONS = { bounce: 0, duration: 200 };
 
 export function CursorSpotlight() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -12,8 +11,8 @@ export function CursorSpotlight() {
   const mouseX = useSpring(0, SPRING_OPTIONS);
   const mouseY = useSpring(0, SPRING_OPTIONS);
 
-  const left = useTransform(mouseX, (x) => `${x - SIZE / 2}px`);
-  const top = useTransform(mouseY, (y) => `${y - SIZE / 2}px`);
+  const left = useTransform(mouseX, (x) => `${x}px`);
+  const top = useTransform(mouseY, (y) => `${y}px`);
 
   const updatePosition = useCallback(
     (x: number, y: number) => {
@@ -29,44 +28,41 @@ export function CursorSpotlight() {
     [updatePosition]
   );
 
-  const handleTouch = useCallback(
-    (e: TouchEvent) => {
-      const touch = e.touches[0];
-      if (touch) updatePosition(touch.clientX, touch.clientY);
-    },
-    [updatePosition]
-  );
-
-  const handleTouchEnd = useCallback(() => setIsVisible(false), []);
+  const handleMouseLeave = useCallback(() => setIsVisible(false), []);
 
   useEffect(() => {
     window.addEventListener('mousemove', handleMouseMove);
-    window.addEventListener('touchstart', handleTouch, { passive: true });
-    window.addEventListener('touchmove', handleTouch, { passive: true });
-    window.addEventListener('touchend', handleTouchEnd);
+    window.addEventListener('mouseleave', handleMouseLeave);
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('touchstart', handleTouch);
-      window.removeEventListener('touchmove', handleTouch);
-      window.removeEventListener('touchend', handleTouchEnd);
+      window.removeEventListener('mouseleave', handleMouseLeave);
     };
-  }, [handleMouseMove, handleTouch, handleTouchEnd]);
+  }, [handleMouseMove, handleMouseLeave]);
 
   return (
-    <div ref={containerRef} className="pointer-events-none fixed inset-0 z-50 overflow-hidden">
+    <div ref={containerRef} className="pointer-events-none fixed inset-0 z-[9999] overflow-hidden">
       <motion.div
-        className="absolute rounded-full"
-        style={{
-          width: SIZE,
-          height: SIZE,
-          left,
-          top,
-          background: 'radial-gradient(circle at center, rgba(10,10,10,0.75) 0%, rgba(10,10,10,0.35) 45%, transparent 70%)',
-          filter: 'blur(18px)',
-          opacity: isVisible ? 1 : 0,
-          transition: 'opacity 0.4s ease',
-        }}
-      />
+        style={{ left, top, opacity: isVisible ? 1 : 0 }}
+        className="absolute"
+      >
+        {/* Black hand cursor SVG */}
+        <svg
+          width="32"
+          height="32"
+          viewBox="0 0 32 32"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          style={{ transform: 'translate(-4px, -2px)' }}
+        >
+          <path
+            d="M8 2C8 1.44772 8.44772 1 9 1C9.55228 1 10 1.44772 10 2V14H11V5C11 4.44772 11.4477 4 12 4C12.5523 4 13 4.44772 13 5V14H14V7C14 6.44772 14.4477 6 15 6C15.5523 6 16 6.44772 16 7V14H17V9C17 8.44772 17.4477 8 18 8C18.5523 8 19 8.44772 19 9V19C19 19 19 21 17 23L17 28C17 28.5523 16.5523 29 16 29H9C8.44772 29 8 28.5523 8 28L8 23C6 21 6 19 6 19V4C6 3.44772 6.44772 3 7 3C7.55228 3 8 3.44772 8 4V2Z"
+            fill="black"
+            stroke="white"
+            strokeWidth="1.2"
+            strokeLinejoin="round"
+          />
+        </svg>
+      </motion.div>
     </div>
   );
 }
