@@ -14,8 +14,17 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Mavi's KI Werkstatt",
-  description: "KI-Lösungen für dein Business",
+  title: "Mavi's KI Werkstatt — KI-Lösungen für dein Business",
+  description:
+    "KI Agentur für Webseiten, Apps, Beratung und Automatisierung. Intelligente Lösungen für KMUs und Selbstständige — praxisnah und schnell umgesetzt.",
+  keywords: ["KI Agentur", "Automatisierung", "KI Beratung", "Webentwicklung", "Apps"],
+  openGraph: {
+    title: "Mavi's KI Werkstatt",
+    description:
+      "Wir automatisieren deine Prozesse mit modernster KI-Technologie. Intelligente Lösungen für dein Business.",
+    locale: "de_DE",
+    type: "website",
+  },
 };
 
 export default function RootLayout({
@@ -26,7 +35,7 @@ export default function RootLayout({
   return (
     <html
       lang="de"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased scroll-smooth scroll-pt-16`}
     >
       <body className="min-h-full flex flex-col cursor-none">
         <CursorSpotlight />
